@@ -1,0 +1,3 @@
+- home page with galaxy animation where each planet is a page, when clicking a planet the camera zooms in to the planet
+- build a computer console that has programs like logx wich enables the user to create a new blog post.
+- the user can enter the contol panel of the spaceship and check the controls
