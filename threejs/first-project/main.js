@@ -14,27 +14,38 @@ document.body.appendChild(renderer.domElement);
 // scene.add(cube);
 
 
-function createSphere() {
-    const s_geometry = new THREE.SphereGeometry(15, 32, 16);
-    const s_material = new THREE.MeshNormalMaterial({ wireframe: true });
-    // const s_material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
-    return new THREE.Mesh(s_geometry, s_material);
+/**
+ * 
+ * @param {number} x 
+ * @param {number} y 
+ */
+function createSphere(x, y) {
+    const geometry = new THREE.SphereGeometry(15, 32, 16);
+
+    const material = new THREE.MeshNormalMaterial({ wireframe: true });
+    // const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+
+    const sphere = new THREE.Mesh(geometry, material);
+    sphere.position.x = x;
+    sphere.position.x = y;
+
+    return sphere;
 }
 
-const sphere1 = createSphere();
-scene.add(sphere1);
-const sphere2 = createSphere();
-sphere2.position.x = 30;
-sphere2.position.y = 30;
-scene.add(sphere2);
+const spheres = [
+    createSphere(0, 0),
+    createSphere(0, 50),
+    createSphere(0, 100),
+    createSphere(0, 150)
+]
 
+spheres.forEach(s => scene.add(s));
 
 function animate() {
-    // cube.rotation.x += 0.01;
-    // cube.rotation.y += 0.01;
-    sphere1.rotation.x += 0.01;
-    sphere1.rotation.y += 0.01;
-
+    spheres.forEach(s => {
+        s.rotation.x += 0.01;
+        s.rotation.y += 0.01;
+    });
 
     renderer.render(scene, camera);
 }
@@ -56,6 +67,24 @@ window.addEventListener('keydown', (e) => {
     }
     if (e.code == 'ArrowRight') {
         camera.position.x += 1
+    }
+});
+
+
+function doSomething(scrollPos) {
+    // Do something with the scroll position
+}
+
+document.addEventListener("scroll", (event) => {
+    lastKnownScrollPosition = window.scrollY;
+
+    if (!ticking) {
+        window.requestAnimationFrame(() => {
+            doSomething(lastKnownScrollPosition);
+            ticking = false;
+        });
+
+        ticking = true;
     }
 });
 
